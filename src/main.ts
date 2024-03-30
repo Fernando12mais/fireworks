@@ -18,28 +18,8 @@ addEventListener("resize", () => {
   canvas.height = innerHeight;
 });
 
-addEventListener("click", (event) => {
-  const p = document.querySelector("p");
-  p?.remove();
-  mouse.x = event.pageX;
-  mouse.y = event.pageY;
-
-  rockets.push(
-    new Rocket({
-      ctx,
-      x: mouse.x,
-      y: innerHeight,
-      color: {
-        head: `hsl(${Math.random() * 360},100%,70%)`,
-        body: `hsl(${Math.random() * 360},100%,70%)`,
-        bottom: `hsl(${Math.random() * 360},100%,70%)`,
-      },
-      destination: { x: mouse.x, y: mouse.y },
-      height: 40,
-      width: 10,
-    })
-  );
-});
+addEventListener("click", fire);
+addEventListener("touchstart", (event) => fire(event.touches[0]));
 
 let particles: Particle[] = [];
 let rockets: Rocket[] = [];
@@ -86,6 +66,33 @@ function generateParticle(x: number, y: number) {
         },
         radius: particlesSize,
       })
+  );
+}
+
+function getRandomColor() {
+  return `hsl(${Math.random() * 360},100%,70%)`;
+}
+
+function fire(event: MouseEvent | TouchEvent["touches"][0]) {
+  const p = document.querySelector("p");
+  p?.remove();
+  mouse.x = event.pageX;
+  mouse.y = event.pageY;
+
+  rockets.push(
+    new Rocket({
+      ctx,
+      x: mouse.x,
+      y: innerHeight,
+      color: {
+        head: getRandomColor(),
+        body: getRandomColor(),
+        bottom: getRandomColor(),
+      },
+      destination: { x: mouse.x, y: mouse.y },
+      height: 40,
+      width: 10,
+    })
   );
 }
 
