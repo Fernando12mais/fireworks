@@ -19,6 +19,8 @@ addEventListener("resize", () => {
 });
 
 addEventListener("click", (event) => {
+  const p = document.querySelector("p");
+  p?.remove();
   mouse.x = event.pageX;
   mouse.y = event.pageY;
 
